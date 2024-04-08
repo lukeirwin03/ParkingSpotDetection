@@ -59,7 +59,6 @@ def process_image(img):
 def main():
     cap = cv2.VideoCapture(
         '/Users/Luke/Desktop/Python_Stuff/ParkingSpotDetection/parking_lot_video.mp4')
-
     # getting the spot data
     with open('ParkingLotPos', 'rb') as file:
         poly = pickle.load(file)
