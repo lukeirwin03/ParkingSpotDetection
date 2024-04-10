@@ -55,12 +55,11 @@ def process_image(img):
     imgDilate = cv2.dilate(imgMedian, kernel, iterations=2)
     return imgDilate
 
-
 def main():
     cap = cv2.VideoCapture(
         '/Users/Luke/Desktop/ParkingSpotDetection/ImageProcessing/parking_lot_video.mp4')
     # getting the spot data
-    with open('ParkingLotPos', 'rb') as file:
+    with open('ImageProcessing/ParkingLotPos', 'rb') as file:
         poly = pickle.load(file)
 
     timer = time.time()
@@ -78,7 +77,8 @@ def main():
         cv2.imshow("Image", img)
 
         cv2.waitKey(1)
-    print(counter)
+    return counter
 
 if __name__ == '__main__':
-    main()
+    counter = main()
+    print(counter)

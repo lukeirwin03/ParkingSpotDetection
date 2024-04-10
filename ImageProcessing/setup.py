@@ -3,7 +3,7 @@ import pickle
 import numpy as np
 import tkinter as tk  # implement this later
 
-filename = '/Users/Luke/Desktop/Python_Stuff/ParkingSpotDetection/screenshot.png'
+filename = '/Users/Luke/Desktop/ParkingSpotDetection/ImageProcessing/parking_lot.png'
 points = []
 
 def mark_points(img):
@@ -50,13 +50,13 @@ def draw_polygons(polygons, img):
 
 def set_spots(img):
     poly = mark_points(img)
-    with open('ParkingLotPos', 'wb') as file:
+    with open('ImageProcessing/ParkingLotPos', 'wb') as file:
         pickle.dump(poly, file)
 
 
 def show_spots(img):
     try:
-        with open('ParkingLotPos', 'rb') as file:
+        with open('ImageProcessing/ParkingLotPos', 'rb') as file:
             poly = pickle.load(file)
     except FileNotFoundError:
         print_error("No spots set yet. Please set the spots first.")
@@ -109,5 +109,9 @@ def setup(img):
             print_error(str(e))
 
 if __name__ == "__main__":
-    img = cv2.imread(filename)
-    setup(img)
+    cap = cv2.VideoCapture('ImageProcessing/parking_lot_video.mp4')
+    success, frame = cap.read()
+    cap.release()
+    cv2.imwrite('/Users/Luke/Desktop/ParkingSpotDetection/ImageProcessing/frame.png', frame)
+    
+    setup(frame)
