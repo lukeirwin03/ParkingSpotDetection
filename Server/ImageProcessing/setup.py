@@ -14,7 +14,7 @@ def mark_points(img):
     def mouse_callback(event, x, y, flags, param):
         global points
 
-        if event == cv2.EVENT_RBUTTONDOWN:
+        if event == cv2.EVENT_RBUTTONDOWN or event == cv2.EVENT_LBUTTONDOWN:
             points.append([x, y])
             if len(points) % 4 == 0 and len(points) >= 4:
                 pts = [points[-4], points[-3], points[-2], points[-1]]

@@ -3,6 +3,7 @@ import pickle
 import cvzone
 import numpy as np
 import time
+import climage
 from setup import *
 
 
@@ -40,7 +41,8 @@ def check_parking_space(img, proc_img, poly):
             thickness = 2
         cv2.polylines(img, [pts], True, color, thickness)
     counter = str(spaces) + "/" + str(len(poly))
-    cvzone.putTextRect(img, counter,(100, 100), scale=3 )
+    h, w = img.shape[:2]
+    cvzone.putTextRect(img, counter, (w//2, 50), scale=3)
 
     return counter
 
@@ -55,16 +57,17 @@ def process_image(img):
     imgDilate = cv2.dilate(imgMedian, kernel, iterations=2)
     return imgDilate
 
+
 def main():
     cap = cv2.VideoCapture(
-        '/Users/Luke/Desktop/ParkingSpotDetection/ImageProcessing/parking_lot_video.mp4')
+        'ImageProcessing/parking_lot_video.mp4')
     # getting the spot data
     with open('ImageProcessing/ParkingLotPos', 'rb') as file:
         poly = pickle.load(file)
 
     timer = time.time()
 
-    while time.time() - timer < 10:
+    while time.time() - timer < 5:
         # if current frame == last frame
         if cap.get(cv2.CAP_PROP_POS_FRAMES) == cap.get(cv2.CAP_PROP_FRAME_COUNT):
             cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
@@ -77,7 +80,9 @@ def main():
         cv2.imshow("Image", img)
 
         cv2.waitKey(1)
+
     return counter
+
 
 if __name__ == '__main__':
     counter = main()
