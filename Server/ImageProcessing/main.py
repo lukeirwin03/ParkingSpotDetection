@@ -3,7 +3,7 @@ import pickle
 import cvzone
 import numpy as np
 import time
-import climage
+# import climage
 from setup import *
 
 
@@ -59,8 +59,9 @@ def process_image(img):
 
 
 def main():
+    grab_vid()
     cap = cv2.VideoCapture(
-        'ImageProcessing/parking_lot_video.mp4')
+        'ImageProcessing/parking_lot_video.h264')
     # getting the spot data
     with open('ImageProcessing/ParkingLotPos', 'rb') as file:
         poly = pickle.load(file)

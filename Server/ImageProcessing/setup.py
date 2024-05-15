@@ -1,9 +1,10 @@
 import cv2
 import pickle
 import numpy as np
+import os
 import tkinter as tk  # implement this later
 
-filename = '/Users/Luke/Desktop/ParkingSpotDetection/ImageProcessing/parking_lot.png'
+filepath = '/home/lukemirwin/Documents/ParkingSpotDetection/Server/ImageProcessing/frame.png'
 points = []
 
 def mark_points(img):
@@ -68,6 +69,9 @@ def show_spots(img):
 
     draw_polygons(poly, img)
 
+def grab_vid():
+    os.system("libcamera-vid -t 10000 -o ImageProcessing/parking_lot_video.h264")
+
 def print_error(message):
     bar = "\n" + ((len(message) + 16)  * "=") + "\n"
     error_str = bar + "ERROR:\n\t" + \
@@ -94,24 +98,27 @@ def setup(img):
     while True:
         try:
             option = int(input(
-                "Please select an option for the setup:\n\n(1): Set up spots\n(2): Display spots\n(3): Exit\n\nChoice: "))
+                "Please select an option for the setup:\n\n(1): Test Camera\n(2): Set up spots\n(3): Display spots\n(4): Exit\n\nChoice: "))
             print('Press `ESC` to terminate the program once you have selected the spots or are done viewing the spots.')
             if option == 1:
-                set_spots(img)
+                grab_vid()
             elif option == 2:
-                show_spots(img)
+                set_spots(img)
             elif option == 3:
+                show_spots(img)
+            elif option == 4:
                 print_success("Exiting program successfully.\n\nGOODBYE")
                 return 1
             else:
-                raise ValueError("Please enter a valid INTEGER (1, 2, or 3).")
+                raise ValueError("Please enter a valid INTEGER (1, 2, 3, or 4).")
         except ValueError as e:
             print_error(str(e))
 
+
 if __name__ == "__main__":
-    cap = cv2.VideoCapture('ImageProcessing/parking_lot_video.mp4')
+    cap = cv2.VideoCapture('ImageProcessing/parking_lot_video.h264')
     success, frame = cap.read()
     cap.release()
-    cv2.imwrite('/Users/Luke/Desktop/ParkingSpotDetection/ImageProcessing/frame.png', frame)
-    
+    cv2.imwrite(filepath, frame)
+    # frame = cv2.imread('frame.png')
     setup(frame)

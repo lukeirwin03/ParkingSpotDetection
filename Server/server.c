@@ -4,8 +4,8 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 
-#define IP_ADDR 
-#define PORT 
+#define IP_ADDR /* put your own ip address here */
+#define PORT /* put your own port here */
 #define BUF_SIZE 1024
 
 char *runScript(void);
